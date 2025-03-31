@@ -186,6 +186,92 @@ Here’s a structured response to each question using the **STAR method** (Situa
 
 ---
 
+---
+
+## **🚀 1-10: Additional Behavioral Questions & Answers**
+
+### **1. Describe a time when you had to balance innovation with reliability in a project.**
+✅ **Situation:** Our team was tasked with implementing **a new API Gateway** to enhance security and performance.  
+✅ **Task:** We needed to **migrate services to Kong API Gateway** without affecting uptime.  
+✅ **Action:** I led a phased rollout, starting with **low-risk endpoints**, monitored performance using **Grafana**, and ensured fallback mechanisms.  
+✅ **Result:** Achieved a **seamless migration** with **zero downtime**, improving API security and rate-limiting.
+
+---
+
+### **2. Tell me about a time when you had to make a difficult trade-off between technical complexity and business needs.**
+✅ **Situation:** The business team wanted **real-time analytics**, but implementing an event-driven architecture would delay the release.  
+✅ **Task:** Find a balance between **speed and feasibility**.  
+✅ **Action:** I proposed a **hybrid approach**—batch processing initially, then migrating to **Kafka-based streaming**.  
+✅ **Result:** Business got early insights while we transitioned smoothly to a **scalable real-time pipeline**.
+
+---
+
+### **3. Have you ever had to convince leadership to adopt a new technology?**
+✅ **Situation:** We needed to move from **synchronous REST calls** to **event-driven communication** for better scalability.  
+✅ **Task:** Convince leadership that **Kafka** was the right choice.  
+✅ **Action:** I prepared a **cost-benefit analysis**, showcased **performance benchmarks**, and led a **pilot implementation**.  
+✅ **Result:** Leadership approved the shift, and the new architecture **reduced latency by 40%**.
+
+---
+
+### **4. Can you share an experience where you had to handle a security breach or vulnerability?**
+✅ **Situation:** A security audit flagged **JWT token leakage risk** due to improper logging.  
+✅ **Task:** Identify and **remediate the vulnerability** while ensuring minimal disruptions.  
+✅ **Action:** Implemented **token encryption**, sanitized logs, and enforced **short-lived access tokens** with OAuth2.  
+✅ **Result:** Passed the security audit, and prevented potential **data exposure risks**.
+
+---
+
+### **5. Tell me about a time when you had to improve API performance under high load.**
+✅ **Situation:** A core API handling **financial transactions** was **slowing down** under peak loads.  
+✅ **Task:** Optimize it without affecting business logic.  
+✅ **Action:** Analyzed **slow queries, optimized indexing, introduced Redis caching**, and applied **rate limiting**.  
+✅ **Result:** Response times improved **by 60%**, handling **3x more transactions** without issues.
+
+---
+
+### **6. Have you ever had to resolve a conflict within your team? How did you handle it?**
+✅ **Situation:** A disagreement arose over **whether to use GraphQL or REST** for a new service.  
+✅ **Task:** Facilitate a **productive discussion** to reach the best technical decision.  
+✅ **Action:** Organized a **tech review**, compared pros & cons, and proposed a hybrid approach—**GraphQL for internal services, REST for external APIs**.  
+✅ **Result:** The team aligned on a solution that **balanced flexibility and maintainability**.
+
+---
+
+### **7. Can you share a time when you had to work with legacy systems and modernize them?**
+✅ **Situation:** A **monolithic application** was causing **performance issues**.  
+✅ **Task:** Refactor it into **microservices** while maintaining functionality.  
+✅ **Action:** I extracted **critical modules**, implemented **API contracts**, and used **database sharding** for scalability.  
+✅ **Result:** Improved maintainability, reduced deployment times, and **cut response times by 50%**.
+
+---
+
+### **8. How do you handle unexpected technical challenges in a project?**
+✅ **Situation:** A third-party **FMS API** had undocumented rate limits, causing intermittent failures.  
+✅ **Task:** Find a workaround without disrupting business logic.  
+✅ **Action:** Implemented a **retry mechanism with exponential backoff**, added **fallback caching**, and adjusted request throttling.  
+✅ **Result:** System stability improved, **eliminating API failures under peak loads**.
+
+---
+
+### **9. Tell me about a time when you proactively improved a system before an issue occurred.**
+✅ **Situation:** Noticed that **database writes** in a high-traffic service were slowing down.  
+✅ **Task:** Prevent performance degradation before it became a bottleneck.  
+✅ **Action:** Switched to **batch processing for inserts**, optimized queries, and added **read replicas**.  
+✅ **Result:** **Increased throughput by 5x** and avoided potential downtime.
+
+---
+
+### **10. How do you handle multiple priorities and tight deadlines?**
+✅ **Situation:** During a major release, I had to juggle **bug fixes, feature development, and API integrations**.  
+✅ **Task:** Ensure everything was delivered **without compromising quality**.  
+✅ **Action:** Used **agile sprints**, prioritized tasks, delegated where possible, and automated testing.  
+✅ **Result:** Delivered the release **on schedule**, with **minimal post-launch issues**.
+
+---
+
+---
+
 ## 🚀 **11-20: Technical & Culture Fit Questions**
 
 ### **11. How do you handle API rate limiting in a high-traffic system?**

@@ -53,4 +53,18 @@ public class TweetCounts {
       default -> throw new IllegalArgumentException("Invalid frequency");
     };
   }
+
+  public static void main(String[] args) {
+    TweetCounts tweetCounts = new TweetCounts();
+    tweetCounts.recordTweet("tweet3", 0);
+    tweetCounts.recordTweet("tweet3", 60);
+    tweetCounts.recordTweet("tweet3", 10);
+    System.out.println(
+      tweetCounts.getTweetCountsPerFrequency("minute", "tweet3", 0, 59)); // return [2]
+    System.out.println(
+      tweetCounts.getTweetCountsPerFrequency("minute", "tweet3", 0, 60)); // return [2,1]
+    tweetCounts.recordTweet("tweet3", 120);
+    System.out.println(
+      tweetCounts.getTweetCountsPerFrequency("hour", "tweet3", 0, 210));  // return [4]
+  }
 }

@@ -4,114 +4,133 @@ import java.util.*;
 
 public class AssignmentSystem {
 
+  // Inner class representing each operator
   private static class Operator implements Comparable<Operator> {
-    String name;
-    int currentAssignments;
-    int limit;
-    long lastAssignedTime;
+    String name;                  // Operator identifier
+    int currentAssignments;       // Number of active conversations
+    int limit;                    // Maximum allowed conversations
 
+    // Constructor initializes with default limit of 2
     Operator(String name) {
       this.name = name;
-      this.limit = 2; // default limit
-      this.currentAssignments = 0;
-      this.lastAssignedTime = Long.MIN_VALUE;
+      this.limit = 2;             // Default assignment limit
+      this.currentAssignments = 0; // Starts with no assignments
     }
 
+    // Comparison method for priority queue ordering
     @Override
     public int compareTo(Operator o) {
+      // Primary sort by current assignment count (lower first)
       if (this.currentAssignments != o.currentAssignments) {
         return Integer.compare(this.currentAssignments, o.currentAssignments);
       }
-      if (this.lastAssignedTime != o.lastAssignedTime) {
-        return Long.compare(this.lastAssignedTime, o.lastAssignedTime);
-      }
-      return this.name.compareTo(o.name);  // tie-break by name
+      // Secondary sort by name (alphabetical tie-breaker)
+      return this.name.compareTo(o.name);
     }
 
-    // Make a deep copy for simulation
+    // Creates a deep copy for simulation purposes
     public Operator clone() {
       Operator copy = new Operator(this.name);
       copy.currentAssignments = this.currentAssignments;
-      copy.lastAssignedTime = this.lastAssignedTime;
       copy.limit = this.limit;
       return copy;
     }
   }
 
-  private final Map<String, Operator> operatorMap = new HashMap<>();
-  private final PriorityQueue<Operator> heap = new PriorityQueue<>();
-  private long globalClock = 0;
 
+  // Maps operator names to their objects
+  private final Map<String, Operator> operatorMap = new HashMap<>();
+
+  // Priority queue for efficient assignment selection
+  private final PriorityQueue<Operator> heap = new PriorityQueue<>();
+
+  // Initializes the system with given operator names
   public AssignmentSystem(List<String> operators) {
     for (String name : operators) {
-      Operator op = new Operator(name);
-      operatorMap.put(name, op);
-      heap.offer(op);
+      Operator op = new Operator(name);    // Create new operator
+      operatorMap.put(name, op);          // Add to name mapping
+      heap.offer(op);                     // Add to priority queue
     }
   }
 
+  // Updates an operator's conversation limit
   public void set_limit(String operatorName, int n) {
     if (operatorMap.containsKey(operatorName)) {
       Operator op = operatorMap.get(operatorName);
-      heap.remove(op);
-      op.limit = n;
-      heap.offer(op);
+      heap.remove(op);      // Remove from queue to update
+      op.limit = n;         // Update the limit
+      heap.offer(op);       // Reinsert with new limit
     }
   }
 
+  // Assigns a conversation to an available operator
   public void assign(int conversationId) {
     while (!heap.isEmpty()) {
-      Operator op = heap.poll();
+      Operator op = heap.poll();  // Get most available operator
+//      System.out.println("OperatorName -> "+op.name);
+
+      // Check if operator can take more conversations
       if (op.currentAssignments < op.limit) {
-        op.currentAssignments++;
-        op.lastAssignedTime = globalClock++;
-        heap.offer(op);
+        op.currentAssignments++;  // Increment assignment count
+        heap.offer(op);           // Return to queue
         System.out.println("Assigned conversation " + conversationId + " to " + op.name);
         return;
       }
-      heap.offer(op);  // still put it back
+
+      // If operator is at limit, put back and continue
+      heap.offer(op);
     }
+    // If no operators available
     System.out.println("No operator available for conversation " + conversationId);
   }
 
+  // Predicts next n assignment order without affecting actual state
   public List<String> get_assignment_queue(int n) {
     List<String> result = new ArrayList<>();
+    // Temporary structures for simulation
     PriorityQueue<Operator> tempHeap = new PriorityQueue<>();
     Map<String, Operator> tempMap = new HashMap<>();
 
+    // Clone current state for simulation
     for (Operator op : operatorMap.values()) {
       tempMap.put(op.name, op.clone());
       tempHeap.offer(tempMap.get(op.name));
     }
 
-    long virtualTime = globalClock;
+    // Simulate n assignments
     while (result.size() < n && !tempHeap.isEmpty()) {
       Operator op = tempHeap.poll();
       if (op.currentAssignments < op.limit) {
-        result.add(op.name);
-        op.currentAssignments++;
-        op.lastAssignedTime = virtualTime++;
-        tempHeap.offer(op);
+        result.add(op.name);         // Add to prediction list
+        op.currentAssignments++;     // Increment in simulation
+        tempHeap.offer(op);          // Return to simulated queue
       } else {
-        tempHeap.offer(op);  // Put back and continue
+        tempHeap.offer(op);          // Put back if at limit
       }
     }
     return result;
   }
 
+  // Example usage
   public static void main(String[] args) {
+    // Initialize with 3 operators
     AssignmentSystem system = new AssignmentSystem(Arrays.asList("Alice", "Bob", "Charlie"));
+
+    // Set custom limits
     system.set_limit("Bob", 4);
     system.set_limit("Charlie", 3);
 
-    System.out.println(system.get_assignment_queue(4));  // Expect: [Alice, Bob, Charlie, Alice]
+    // Get next 4 expected assignments
+    System.out.println(system.get_assignment_queue(4));
 
+    // Make actual assignments
     system.assign(101);  // Alice
     system.assign(102);  // Bob
     system.assign(103);  // Charlie
     system.assign(104);  // Alice
 
-    System.out.println(system.get_assignment_queue(5));  // Expect: [Bob, Charlie, Bob, Charlie, Bob]
+    // Get next 5 expected assignments
+    System.out.println(system.get_assignment_queue(5));
   }
 }
 
@@ -160,3 +179,4 @@ public class AssignmentSystem {
 //  # Now that the above assignments have been made, I want to know who will receive next 5 conversations
 //  # system.get_assignment_queue(5)
 //  # ['Bob', 'Charlie', 'Bob', 'Charlie', 'Bob']
+
